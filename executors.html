@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARS.PINK - Executors</title>
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<canvas id="pc"></canvas>
+
+<nav>
+  <a class="n-logo" href="index.html"><span class="brand-word">ARS.<span class="brand-ping">PINK</span></span></a>
+
+  <div class="n-links">
+    <a href="index.html">Home</a>
+    <a href="executors.html" class="cur">Executors</a>
+    <a href="games.html">Games</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="tos.html">Terms</a>
+  </div>
+
+  <div class="n-right">
+    <a class="n-txt" href="https://discord.gg/ANGyh3ftc8" target="_blank">Discord</a>
+    <a class="n-buy" href="pricing.html">Buy Now</a>
+  </div>
+</nav>
+
+<main class="page-wrap exec-shell">
+  <section class="policy-hero exec-hero">
+    <h1>Roblox Executors</h1>
+    <p>Browse and filter Roblox script executors compatible with ARS.PINK.</p>
+    <p class="exec-hero-note">Only executors marked as supported are confirmed through ARS.PINK testing. Other listings may still work, but have not been verified yet.</p>
+  </section>
+
+  <section class="versions-panel">
+    <div class="versions-head">
+      <h2>Roblox Versions</h2>
+    </div>
+    <div class="version-list" id="versionCards">
+      <article class="version-item">
+        <div>
+          <p class="version-label">Loading versions</p>
+          <p class="version-date">Please wait while the version feed loads.</p>
+        </div>
+        <div class="version-tag">Fetching...</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="stat-grid">
+    <article class="stat-card">
+      <div>
+        <p class="stat-label">Total</p>
+        <strong id="statTotal">0</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <div>
+        <p class="stat-label">Working</p>
+        <strong id="statWorking">0</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <div>
+        <p class="stat-label">Free</p>
+        <strong id="statFree">0</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <div>
+        <p class="stat-label">Paid</p>
+        <strong id="statPaid">0</strong>
+      </div>
+    </article>
+  </section>
+
+  <section class="exec-toolbar">
+    <div class="exec-toolbar-top exec-toolbar-simple">
+      <div class="exec-search-wrap">
+        <input id="searchExecutors" class="exec-search" type="search" placeholder="Search executors..." />
+      </div>
+      <button id="toggleFilters" class="exec-filter-toggle" type="button" aria-expanded="false" aria-controls="execFilters">Filters</button>
+    </div>
+
+    <div id="execFilters" class="exec-filters-drawer" hidden>
+      <div class="exec-filter-group">
+        <h3>Platform</h3>
+        <div class="policy-nav" id="platformFilters" aria-label="Platform filters">
+          <button class="policy-chip is-active" type="button" data-value="All">All</button>
+          <button class="policy-chip" type="button" data-value="Windows">Windows</button>
+          <button class="policy-chip" type="button" data-value="Mac">Mac</button>
+          <button class="policy-chip" type="button" data-value="Android">Android</button>
+          <button class="policy-chip" type="button" data-value="iOS">iOS</button>
+        </div>
+      </div>
+
+      <div class="exec-filter-group">
+        <h3>Price</h3>
+        <div class="policy-nav" id="priceFilters" aria-label="Price filters">
+          <button class="policy-chip is-active" type="button" data-value="All">All</button>
+          <button class="policy-chip" type="button" data-value="Free">Free</button>
+          <button class="policy-chip" type="button" data-value="Paid">Paid</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="executorSections">
+    <div class="policy-card">
+      <h2>Loading executors</h2>
+      <p>Requesting live data from the configured WEAO-compatible API source.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-col">
+      <h4>ARS.PINK</h4>
+      <a href="index.html">Home</a>
+      <a href="executors.html">Executors</a>
+      <a href="games.html">Games</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ</a>
+      <a href="tos.html">Terms</a>
+      <a href="https://discord.gg/ANGyh3ftc8" target="_blank">Discord</a>
+    </div>
+    <div class="foot-col">
+      <h4>Scripts</h4>
+      <a href="index.html#how">How It Works</a>
+      <a href="index.html#why">Why Choose Us</a>
+      <a href="https://ars.pink/ars/buy" target="_blank">Buy ARS.PINK</a>
+    </div>
+    <div class="foot-col">
+      <h4>Popular</h4>
+      <a href="index.html">ARS Script</a>
+      <a href="index.html">FSS Script</a>
+      <a href="index.html">BRMS Script</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; 2026 ARS.PINK. All rights reserved.</span>
+    <a href="tos.html">Terms of Service</a>
+    <p class="foot-disclaimer">ARS.PINK is not affiliated with, endorsed by, or sponsored by any game developer or publisher.</p>
+  </div>
+</footer>
+
+<script src="assets/js/site.js?v=20260513m1"></script>
+<script>
+  window.WEAO_API_BASE = "https://whatexpsare.online/api";
+</script>
+<script src="assets/js/executors.js"></script>
+</body>
+</html>
