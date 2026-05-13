@@ -2,8 +2,12 @@
   var API_BASE = window.WEAO_API_BASE || "https://whatexpsare.online/api";
   // Edit this list to control ARS.PINK support percentages by executor name.
   var ARS_SUPPORT_OVERRIDES = [
-    // { title: "Madium", support: 65 },
-    // { title: "Potassium", support: 80 }
+     { title: "Potassium", support: 100 },
+     { title: "Synapse Z", support: 100 },
+     { title: "ChocoSploit", support: 100 },
+     {title: "Madium", support: 80 },
+     {title: "Volt", support: 95 },
+
   ];
   var arsSupportByTitle = ARS_SUPPORT_OVERRIDES.reduce(function(map, entry) {
     var key = normalizeTitle(entry && entry.title);

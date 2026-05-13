@@ -34,20 +34,18 @@
     <p class="faq-hero-note">If your issue is urgent, open a Discord support ticket and include your order email plus a screenshot of your error.</p>
   </section>
 
-  <section class="faq-layout">
-    <aside class="policy-card faq-toc" aria-label="FAQ categories">
-      <h2>Categories</h2>
-      <a href="#purchase">Purchase and Access</a>
-      <a href="#setup">Setup and Execution</a>
-      <a href="#account">Account and Security</a>
-      <a href="#billing">Billing and Policy</a>
-      <a href="#support">Support and Contact</a>
-    </aside>
+  <section class="faq-tabs" aria-label="FAQ categories" role="tablist">
+    <button class="policy-chip faq-tab is-active" id="purchase-tab" type="button" role="tab" aria-selected="true" aria-controls="purchase" data-faq-tab="purchase">Purchase and Access</button>
+    <button class="policy-chip faq-tab" id="setup-tab" type="button" role="tab" aria-selected="false" aria-controls="setup" data-faq-tab="setup">Setup and Execution</button>
+    <button class="policy-chip faq-tab" id="account-tab" type="button" role="tab" aria-selected="false" aria-controls="account" data-faq-tab="account">Account and Security</button>
+    <button class="policy-chip faq-tab" id="billing-tab" type="button" role="tab" aria-selected="false" aria-controls="billing" data-faq-tab="billing">Billing and Policy</button>
+    <button class="policy-chip faq-tab" id="support-tab" type="button" role="tab" aria-selected="false" aria-controls="support" data-faq-tab="support">Support and Contact</button>
+  </section>
 
-    <section class="policy-sections faq-main">
-      <article class="policy-card faq-block" id="purchase">
+  <section class="policy-sections faq-main">
+      <article class="policy-card faq-block is-active" id="purchase" role="tabpanel" aria-labelledby="purchase-tab" data-faq-panel>
         <h2>Purchase and Access</h2>
-        <details class="faq-qa" open>
+        <details class="faq-qa">
           <summary>What plans are available right now?</summary>
           <p>We currently offer two options: $10 Stripe Lifetime and $10 Crypto Lifetime. Both unlock the same ARS.PINK access permanently.</p>
         </details>
@@ -61,9 +59,9 @@
         </details>
       </article>
 
-      <article class="policy-card faq-block" id="setup">
+      <article class="policy-card faq-block" id="setup" role="tabpanel" hidden aria-labelledby="setup-tab" data-faq-panel>
         <h2>Setup and Execution</h2>
-        <details class="faq-qa" open>
+        <details class="faq-qa">
           <summary>How do I start using ARS.PINK after buying?</summary>
           <p>Sign in to your dashboard, copy your loader script, inject with a compatible executor, then execute while inside the game session.</p>
         </details>
@@ -77,9 +75,9 @@
         </details>
       </article>
 
-      <article class="policy-card faq-block" id="account">
+      <article class="policy-card faq-block" id="account" role="tabpanel" hidden aria-labelledby="account-tab" data-faq-panel>
         <h2>Account and Security</h2>
-        <details class="faq-qa" open>
+        <details class="faq-qa">
           <summary>Can I share my key or account?</summary>
           <p>No. Keys are intended for a single user. Sharing can trigger restrictions or revocation for abuse prevention.</p>
         </details>
@@ -93,9 +91,9 @@
         </details>
       </article>
 
-      <article class="policy-card faq-block" id="billing">
+      <article class="policy-card faq-block" id="billing" role="tabpanel" hidden aria-labelledby="billing-tab" data-faq-panel>
         <h2>Billing and Policy</h2>
-        <details class="faq-qa" open>
+        <details class="faq-qa">
           <summary>Is this a subscription?</summary>
           <p>No. Current offers are one-time lifetime purchases with no recurring charge.</p>
         </details>
@@ -113,7 +111,7 @@
         </details>
       </article>
 
-      <article class="policy-card faq-block faq-support" id="support">
+      <article class="policy-card faq-block faq-support" id="support" role="tabpanel" hidden aria-labelledby="support-tab" data-faq-panel>
         <h2>Support and Contact</h2>
         <p>Need direct help? Open a ticket in Discord and include your order details so we can verify quickly.</p>
         <div class="policy-actions">
@@ -122,7 +120,6 @@
           <a class="policy-btn policy-btn-ghost" href="tos.html">Read Terms</a>
         </div>
       </article>
-    </section>
   </section>
 </main>
 
@@ -145,10 +142,10 @@
       <a href="https://ars.pink/ars/buy" target="_blank">Buy ARS.PINK</a>
     </div>
     <div class="foot-col">
-      <h4>Popular</h4>
-      <a href="index.html">ARS Script</a>
-      <a href="index.html">FSS Script</a>
-      <a href="index.html">BRMS Script</a>
+      <h4>Support</h4>
+      <a href="faq.html">Setup and FAQ</a>
+      <a href="pricing.html">Compare Plans</a>
+      <a href="https://discord.gg/ANGyh3ftc8" target="_blank">Open Discord Support</a>
     </div>
   </div>
   <div class="foot-bottom">

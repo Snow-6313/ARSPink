@@ -167,3 +167,51 @@
     if (window.innerWidth > 960) closeMenu();
   });
 })();
+
+// FAQ page tabs: show one category at a time.
+(function() {
+  var tabs = document.querySelectorAll("[data-faq-tab]");
+  var panels = document.querySelectorAll("[data-faq-panel]");
+  if (!tabs.length || !panels.length) return;
+
+  function setActiveFaqPanel(panelId) {
+    Array.prototype.forEach.call(tabs, function(tab) {
+      var isActive = tab.getAttribute("data-faq-tab") === panelId;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      tab.setAttribute("tabindex", isActive ? "0" : "-1");
+    });
+
+    Array.prototype.forEach.call(panels, function(panel) {
+      var isActive = panel.id === panelId;
+      if (isActive) {
+        panel.removeAttribute("hidden");
+        panel.classList.add("is-active");
+      } else {
+        panel.setAttribute("hidden", "hidden");
+        panel.classList.remove("is-active");
+      }
+    });
+  }
+
+  Array.prototype.forEach.call(tabs, function(tab) {
+    tab.addEventListener("click", function() {
+      setActiveFaqPanel(tab.getAttribute("data-faq-tab"));
+    });
+
+    tab.addEventListener("keydown", function(event) {
+      var currentIndex = Array.prototype.indexOf.call(tabs, tab);
+      var nextIndex = currentIndex;
+
+      if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+      if (nextIndex === currentIndex) return;
+
+      event.preventDefault();
+      tabs[nextIndex].focus();
+      setActiveFaqPanel(tabs[nextIndex].getAttribute("data-faq-tab"));
+    });
+  });
+
+  setActiveFaqPanel(document.querySelector("[data-faq-tab].is-active").getAttribute("data-faq-tab"));
+})();
