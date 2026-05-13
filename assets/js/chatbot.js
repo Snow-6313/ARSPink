@@ -87,8 +87,63 @@
     { label: "Refunds", icon: "R", q: "do you offer refunds" }
   ];
 
+  var STORAGE_KEY = "arsChatHistoryV1";
+  var MAX_HISTORY = 18;
+
+  var CONVO = [
+    {
+      tags: ["hi", "hello", "hey", "yo", "sup", "good morning", "good evening"],
+      answer: "Hey. I can help with pricing, setup, executors, game support, refunds, and account rules.",
+      score: 2
+    },
+    {
+      tags: ["thanks", "thank you", "ty", "thx", "appreciate"],
+      answer: "Anytime. If you want, I can also show pricing, setup, or support links.",
+      score: 2
+    },
+    {
+      tags: ["human", "real person", "agent", "staff", "mod", "admin"],
+      answer: "For a real person, open a ticket on <a href='https://discord.gg/ANGyh3ftc8' target='_blank' rel='noopener'>Discord support</a> and include your order email.",
+      score: 3
+    }
+  ];
+
+  var STOP_WORDS = {
+    a: 1,
+    an: 1,
+    and: 1,
+    are: 1,
+    do: 1,
+    for: 1,
+    i: 1,
+    is: 1,
+    it: 1,
+    me: 1,
+    my: 1,
+    of: 1,
+    on: 1,
+    or: 1,
+    the: 1,
+    to: 1,
+    what: 1,
+    where: 1,
+    with: 1,
+    you: 1,
+    your: 1
+  };
+
   function normalize(str) {
     return str.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function getTerms(str) {
+    var tokens = normalize(str).split(" ");
+    var result = [];
+    tokens.forEach(function (token) {
+      if (!token || STOP_WORDS[token]) return;
+      result.push(token);
+    });
+    return result;
   }
 
   function escapeHtml(str) {
@@ -99,24 +154,69 @@
       .replace(/\"/g, "&quot;");
   }
 
+  function scoreTags(q, terms, entry, baseWeight) {
+    var score = 0;
+    entry.tags.forEach(function (tag) {
+      var t = normalize(tag);
+      if (!t) return;
+
+      if (q === t) {
+        score += 8 * baseWeight;
+        return;
+      }
+
+      if (q.indexOf(t) !== -1) {
+        score += (t.split(" ").length + 2) * baseWeight;
+      }
+
+      if (t.length > 3 && q.indexOf(t.slice(0, -1)) !== -1) {
+        score += 1 * baseWeight;
+      }
+
+      var tagTerms = t.split(" ");
+      tagTerms.forEach(function (tt) {
+        if (tt.length < 3) return;
+        if (terms.indexOf(tt) !== -1) score += 1 * baseWeight;
+      });
+    });
+    return score;
+  }
+
+  function getFallbackAnswer() {
+    return (
+      "I could not match that perfectly. Try one of these:<br>" +
+      "- pricing and payment<br>" +
+      "- supported games or executors<br>" +
+      "- setup and loader steps<br>" +
+      "- refunds and ToS rules<br><br>" +
+      "Need staff help? <a href='https://discord.gg/ANGyh3ftc8' target='_blank' rel='noopener'>Open Discord support</a>."
+    );
+  }
+
   function findAnswer(input) {
     var q = normalize(input);
+    var terms = getTerms(input);
     var bestEntry = null;
     var bestScore = 0;
 
-    KB.forEach(function (entry) {
-      var score = 0;
-      entry.tags.forEach(function (tag) {
-        if (q.indexOf(tag) !== -1) score += tag.split(" ").length + 1;
-      });
+    CONVO.forEach(function (entry) {
+      var score = scoreTags(q, terms, entry, entry.score || 1);
       if (score > bestScore) {
         bestScore = score;
         bestEntry = entry;
       }
     });
 
-    if (bestScore > 0 && bestEntry) return bestEntry.answer;
-    return "I could not match that perfectly. Try FAQ or open a ticket on <a href='https://discord.gg/ANGyh3ftc8' target='_blank' rel='noopener'>Discord support</a>.";
+    KB.forEach(function (entry) {
+      var score = scoreTags(q, terms, entry, 1);
+      if (score > bestScore) {
+        bestScore = score;
+        bestEntry = entry;
+      }
+    });
+
+    if (bestScore > 1 && bestEntry) return bestEntry.answer;
+    return getFallbackAnswer();
   }
 
   var widget = document.createElement("div");
@@ -165,6 +265,49 @@
   var input = document.getElementById("arsChatInput");
   var greeted = false;
 
+  function saveHistory() {
+    var payload = [];
+    var nodes = messages.querySelectorAll(".ars-chat-msg");
+    nodes.forEach(function (node) {
+      var who = node.classList.contains("ars-chat-msg-user") ? "user" : "bot";
+      var bubble = node.querySelector(".ars-chat-bubble");
+      if (!bubble) return;
+      payload.push({ who: who, text: bubble.innerHTML });
+    });
+    if (payload.length > MAX_HISTORY) {
+      payload = payload.slice(payload.length - MAX_HISTORY);
+    }
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch (_e) {}
+  }
+
+  function restoreHistory() {
+    var raw;
+    try {
+      raw = sessionStorage.getItem(STORAGE_KEY);
+    } catch (_e) {
+      return false;
+    }
+    if (!raw) return false;
+
+    try {
+      var history = JSON.parse(raw);
+      if (!Array.isArray(history) || !history.length) return false;
+      history.forEach(function (entry) {
+        if (!entry || !entry.who || !entry.text) return;
+        var msg = document.createElement("div");
+        msg.className = "ars-chat-msg ars-chat-msg-" + entry.who;
+        msg.innerHTML = '<div class="ars-chat-bubble">' + entry.text + '</div>';
+        messages.appendChild(msg);
+      });
+      messages.scrollTop = messages.scrollHeight;
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
   function addMessage(text, who) {
     var msg = document.createElement("div");
     msg.className = "ars-chat-msg ars-chat-msg-" + who + " is-enter";
@@ -174,6 +317,7 @@
       msg.classList.remove("is-enter");
     });
     messages.scrollTop = messages.scrollHeight;
+    saveHistory();
   }
 
   function showTyping() {
@@ -209,6 +353,13 @@
 
   function greetIfNeeded() {
     if (greeted) return;
+
+    if (restoreHistory()) {
+      greeted = true;
+      buildQuickReplies();
+      return;
+    }
+
     greeted = true;
     addMessage("Welcome to ARS.PINK support. Ask about pricing, supported executors, game support, setup, refunds, or key-sharing rules.", "bot");
     buildQuickReplies();
@@ -255,6 +406,9 @@
     messages.innerHTML = "";
     quickWrap.innerHTML = "";
     greeted = false;
+    try {
+      sessionStorage.removeItem(STORAGE_KEY);
+    } catch (_e) {}
     greetIfNeeded();
   });
 
