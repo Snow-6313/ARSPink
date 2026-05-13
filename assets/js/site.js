@@ -10,8 +10,8 @@
 
   var ctx = canvas.getContext("2d");
   var W, H, pts = [];
-  var COUNT = 108;
-  var MAX_D = 145;
+  var COUNT = 120;
+  var MAX_D = 155;
 
   function resize() {
     W = canvas.width = window.innerWidth;
@@ -21,8 +21,8 @@
   function Pt() {
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 1.55;
-    this.vy = (Math.random() - 0.5) * 1.55;
+    this.vx = (Math.random() - 0.5) * 1.9;
+    this.vy = (Math.random() - 0.5) * 1.9;
     this.r = Math.random() * 2.2 + 1.2;
   }
 
@@ -51,10 +51,10 @@
         dy = pts[i].y - pts[j].y;
         d = Math.sqrt(dx * dx + dy * dy);
         if (d < MAX_D) {
-          a = (1 - d / MAX_D) * 0.22;
+          a = (1 - d / MAX_D) * 0.3;
           ctx.beginPath();
-          ctx.strokeStyle = "rgba(200,200,220," + a + ")";
-          ctx.lineWidth = 0.7;
+          ctx.strokeStyle = "rgba(210,180,220," + a + ")";
+          ctx.lineWidth = 0.8;
           ctx.moveTo(pts[i].x, pts[i].y);
           ctx.lineTo(pts[j].x, pts[j].y);
           ctx.stroke();
@@ -66,8 +66,11 @@
       p = pts[i];
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.shadowBlur = 4;
+      ctx.shadowColor = "rgba(232,23,122,0.5)";
       ctx.fillStyle = "rgba(232,23,122,0.9)";
       ctx.fill();
+      ctx.shadowBlur = 0;
     }
 
     requestAnimationFrame(loop);

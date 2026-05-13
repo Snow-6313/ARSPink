@@ -1,15 +1,11 @@
 (function() {
   // Majority of this page behavior is driven by this editable array.
   var GAMES = [
-    { name: "Fallen Survival", maybe: false, placeId: 10228136016, imageUrl: "" },
-    { name: "RiotFall", maybe: false, placeId: 7796842481, imageUrl: "" },
-    { name: "Frontlines", maybe: false, placeId: 5938036553, imageUrl: "" },
-    { name: "BRM5", maybe: false, placeId: 2916899287, imageUrl: "" },
-    { name: "State of Anarchy", maybe: true, placeId: 2000062521, imageUrl: "" },
-    { name: "Project Delta", maybe: true, placeId: 7336302630, imageUrl: "" },
-    { name: "Phantom Forces", maybe: false, placeId: 292439477, imageUrl: "" },
-    { name: "Scorched Earth", maybe: false, placeId: 13794093709, imageUrl: "" },
-    { name: "The Armory", maybe: true, placeId: 115209351507608, imageUrl: "" }
+    { name: "Apocalypse Rising 2", maybe: false, placeId: 863266079, imageUrl: "", genre: "Survival" },
+    { name: "Blackhawk Rescue Mission 5", maybe: false, placeId: 2916899287, imageUrl: "", genre: "Military FPS" },
+    { name: "Fallen Survival", maybe: false, placeId: 10228136016, imageUrl: "", genre: "Survival" },
+    { name: "Phantom Forces", maybe: false, placeId: 292439477, imageUrl: "", genre: "FPS" },
+    { name: "Deadline", maybe: false, placeId: 12144402492, imageUrl: "", genre: "FPS" }
   ];
 
   var state = {
@@ -63,15 +59,26 @@
 
       return '' +
         '<article class="game-card' + errorClass + '">' +
-          '<div class="game-card-media">' +
-            '<img class="game-card-image" data-game-name="' + escapeHtml(game.name) + '" src="' + escapeHtml(imageSrc) + '" alt="' + escapeHtml(game.name) + ' cover" loading="lazy" />' +
-            '<span class="game-card-fallback" aria-hidden="true">' + escapeHtml((game.name || "?").charAt(0).toUpperCase()) + '</span>' +
-          '</div>' +
+          '<a href="' + playHref + '" target="_blank" rel="noopener" class="game-card-media-link" style="display:contents" aria-label="Play ' + escapeHtml(game.name) + ' on Roblox">' +
+            '<div class="game-card-media">' +
+              '<img class="game-card-image" data-game-name="' + escapeHtml(game.name) + '" src="' + escapeHtml(imageSrc) + '" alt="' + escapeHtml(game.name) + ' cover" loading="lazy" />' +
+              '<span class="game-card-fallback" aria-hidden="true">' + escapeHtml((game.name || "?").charAt(0).toUpperCase()) + '</span>' +
+              '<div class="game-card-img-overlay"></div>' +
+              '<div class="game-card-check" aria-hidden="true">' +
+                '<svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                  '<circle cx="26" cy="26" r="26" fill="rgba(34,197,94,0.88)"/>' +
+                  '<polyline points="14,27 22,35 38,18" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+                '</svg>' +
+              '</div>' +
+            '</div>' +
+          '</a>' +
           '<div class="game-card-body">' +
             '<h3>' + escapeHtml(game.name) + '</h3>' +
-            '<div class="game-card-actions">' +
-              '<a class="game-card-btn" href="' + playHref + '" target="_blank" rel="noopener">Play on Roblox</a>' +
+            '<div class="game-card-support-wrap">' +
+              '<span class="game-card-support-label">Fully Supported</span>' +
+              '<div class="game-card-bar-track"><div class="game-card-bar-fill"></div></div>' +
             '</div>' +
+            '<span class="game-card-avail">Available</span>' +
           '</div>' +
         '</article>';
     }).join("");
