@@ -6,7 +6,8 @@
      { title: "Synapse Z", support: 100 },
      { title: "ChocoSploit", support: 100 },
      {title: "Madium", support: 80 },
-     {title: "Volt", support: 95 },
+     {title: "Volt", support: 100 },
+    {title: "Wave", support: 80 },
 
   ];
   var arsSupportByTitle = ARS_SUPPORT_OVERRIDES.reduce(function(map, entry) {
