@@ -7,7 +7,7 @@
      { title: "ChocoSploit", support: 100 },
      {title: "Madium", support: 80 },
      {title: "Volt", support: 100 },
-    {title: "Wave", support: 80 },
+     {title: "Wave", support: 80 }
 
   ];
   var arsSupportByTitle = ARS_SUPPORT_OVERRIDES.reduce(function(map, entry) {
