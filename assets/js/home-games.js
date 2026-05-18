@@ -1,10 +1,6 @@
 (function () {
   var GAMES = [
-    { acronym: "APOC2",  full: "Apocalypse Rising 2"       },
-    { acronym: "BRM5",   full: "Blackhawk Rescue Mission 5" },
-    { acronym: "FS",     full: "Fallen Survival"            },
-    { acronym: "PF",     full: "Phantom Forces"             },
-    { acronym: "DL",     full: "Deadline"                   }
+    { acronym: "CRIM", full: "Criminality" }
   ];
 
   var acronymEl  = document.getElementById("heroTypeAcronym");

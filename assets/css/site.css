@@ -1,9 +1,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --pink: #e8177a;
-  --pink-dim: rgba(232,23,122,0.15);
-  --pink-border: rgba(232,23,122,0.35);
+  --pink: #9b5cff;
+  --pink-dim: rgba(155,92,255,0.15);
+  --pink-border: rgba(155,92,255,0.35);
   --mx: 50%;
   --my: 50%;
 }
@@ -12,7 +12,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-  background: #080808;
+  background: #06060c;
   color: #fff;
   overflow-x: hidden;
 }
@@ -23,7 +23,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(650px circle at var(--mx) var(--my), rgba(232,23,122,0.13) 0%, transparent 55%);
+  background: radial-gradient(650px circle at var(--mx) var(--my), rgba(155,92,255,0.14) 0%, transparent 55%);
 }
 
 #pc {
@@ -344,6 +344,78 @@ body.mobile-nav-open .mobile-nav-panel {
   transition: border-color 0.15s, color 0.15s;
 }
 .btn-dk:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+
+/* ===== CRIMINALITY HOME LAYOUT ===== */
+.hero.hero-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-items: center;
+  justify-items: center;
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
+.hero-copy {
+  width: 100%;
+  max-width: 860px;
+  align-items: center;
+  text-align: center;
+  justify-self: center;
+}
+.hero-copy .hero-btns {
+  justify-content: center;
+}
+.hero-copy .hero p {
+  margin-left: 0;
+  margin-right: 0;
+}
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.72);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-kicker::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--pink);
+  box-shadow: 0 0 10px rgba(155,92,255,0.7);
+}
+.hero-metric-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+.hero-metric {
+  min-width: 180px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+}
+.hero-metric strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.hero-metric span {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.78rem;
+}
 
 /* ===== SECTION BASE ===== */
 .sec {

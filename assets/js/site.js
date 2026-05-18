@@ -53,7 +53,7 @@
         if (d < MAX_D) {
           a = (1 - d / MAX_D) * 0.3;
           ctx.beginPath();
-          ctx.strokeStyle = "rgba(210,180,220," + a + ")";
+          ctx.strokeStyle = "rgba(176,135,255," + a + ")";
           ctx.lineWidth = 0.8;
           ctx.moveTo(pts[i].x, pts[i].y);
           ctx.lineTo(pts[j].x, pts[j].y);
@@ -67,8 +67,8 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.shadowBlur = 4;
-      ctx.shadowColor = "rgba(232,23,122,0.5)";
-      ctx.fillStyle = "rgba(232,23,122,0.9)";
+      ctx.shadowColor = "rgba(155,92,255,0.55)";
+      ctx.fillStyle = "rgba(155,92,255,0.9)";
       ctx.fill();
       ctx.shadowBlur = 0;
     }

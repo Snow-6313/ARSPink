@@ -1,16 +1,119 @@
 (function() {
-  var API_BASE = window.WEAO_API_BASE || "https://whatexpsare.online/api";
-  // Edit this list to control ARS.PINK support percentages by executor name.
-  var ARS_SUPPORT_OVERRIDES = [
-     { title: "Potassium", support: 100 },
-     { title: "Synapse Z", support: 100 },
-     { title: "ChocoSploit", support: 100 },
-     {title: "Madium", support: 80 },
-     {title: "Volt", support: 100 },
-     {title: "Wave", support: 80 }
-
+  var LOADOUT_SUPPORT_OVERRIDES = [
+    { title: "Night Shift", support: 100 },
+    { title: "Back Alley", support: 95 },
+    { title: "Midnight Run", support: 88 },
+    { title: "Safehouse", support: 92 },
+    { title: "Courier", support: 84 }
   ];
-  var arsSupportByTitle = ARS_SUPPORT_OVERRIDES.reduce(function(map, entry) {
+  var CRIMINALITY_LOADOUTS = [
+    {
+      title: "Night Shift",
+      platform: "Stealth",
+      version: "Glass Purple",
+      updatedDate: "Live now",
+      online: true,
+      updateStatus: true,
+      free: true,
+      cost: "Free",
+      arsSupport: 100,
+      uncPercentage: 98,
+      suncPercentage: 89,
+      decompiler: false,
+      multiInject: true,
+      keysystem: false,
+      extype: "local",
+      detected: false,
+      websitelink: "#",
+      discordlink: "#",
+      purchaselink: "#"
+    },
+    {
+      title: "Back Alley",
+      platform: "Assault",
+      version: "Violet Rush",
+      updatedDate: "Live now",
+      online: true,
+      updateStatus: true,
+      free: false,
+      cost: "Premium",
+      arsSupport: 95,
+      uncPercentage: 92,
+      suncPercentage: 85,
+      decompiler: true,
+      multiInject: true,
+      keysystem: true,
+      extype: "local",
+      detected: false,
+      websitelink: "#",
+      discordlink: "#",
+      purchaselink: "#"
+    },
+    {
+      title: "Midnight Run",
+      platform: "Support",
+      version: "One Game Only",
+      updatedDate: "Live now",
+      online: true,
+      updateStatus: true,
+      free: true,
+      cost: "Free",
+      arsSupport: 88,
+      uncPercentage: 90,
+      suncPercentage: 82,
+      decompiler: false,
+      multiInject: false,
+      keysystem: false,
+      extype: "local",
+      detected: false,
+      websitelink: "#",
+      discordlink: "#",
+      purchaselink: "#"
+    },
+    {
+      title: "Safehouse",
+      platform: "Utility",
+      version: "Scene Builder",
+      updatedDate: "Live now",
+      online: true,
+      updateStatus: true,
+      free: false,
+      cost: "Premium",
+      arsSupport: 92,
+      uncPercentage: 94,
+      suncPercentage: 87,
+      decompiler: true,
+      multiInject: false,
+      keysystem: true,
+      extype: "local",
+      detected: false,
+      websitelink: "#",
+      discordlink: "#",
+      purchaselink: "#"
+    },
+    {
+      title: "Courier",
+      platform: "Stealth",
+      version: "Fast Lane",
+      updatedDate: "Live now",
+      online: true,
+      updateStatus: true,
+      free: true,
+      cost: "Free",
+      arsSupport: 84,
+      uncPercentage: 86,
+      suncPercentage: 78,
+      decompiler: false,
+      multiInject: true,
+      keysystem: false,
+      extype: "local",
+      detected: false,
+      websitelink: "#",
+      discordlink: "#",
+      purchaselink: "#"
+    }
+  ];
+  var arsSupportByTitle = LOADOUT_SUPPORT_OVERRIDES.reduce(function(map, entry) {
     var key = normalizeTitle(entry && entry.title);
     if (key) map[key] = clampPercent(entry && entry.support);
     return map;
@@ -104,20 +207,17 @@
     });
   }
 
-  function renderVersions(versions) {
-    var cards = [
-      { label: "Windows", version: versions.Windows, date: versions.WindowsDate },
-      { label: "Mac", version: versions.Mac, date: versions.MacDate }
-    ];
+  function renderVersions(cards) {
+    var list = Array.isArray(cards) ? cards : [];
 
-    byId("versionCards").innerHTML = cards.map(function(item) {
+    byId("versionCards").innerHTML = list.map(function(item) {
       return '' +
         '<article class="version-item">' +
           '<div>' +
-            '<p class="version-label">' + escapeHtml(item.label) + ' Version</p>' +
-            '<p class="version-date">Last Updated: ' + escapeHtml(item.date || "Unknown") + '</p>' +
+            '<p class="version-label">' + escapeHtml(item.label) + '</p>' +
+            '<p class="version-date">' + escapeHtml(item.note || "Live Criminality setup") + '</p>' +
           '</div>' +
-          '<div class="version-tag">' + escapeHtml(item.version || "Unavailable") + '</div>' +
+          '<div class="version-tag">' + escapeHtml(item.version || "Ready") + '</div>' +
         '</article>';
     }).join("");
   }
@@ -139,9 +239,9 @@
       return executor.recommendedReason.features.join(" ");
     }
     if (executor.detected) {
-      return "This exploit bypasses client modification bans but could still be affected by banwaves";
+      return "This loadout was flagged during internal testing and should be treated as experimental.";
     }
-    return "This executor currently has no additional ARS.PINK advisory.";
+    return "This Criminality loadout is tuned for the new purple theme and works without any external feed.";
   }
 
   function createExpandedFacts(executor) {
@@ -198,7 +298,7 @@
       groups[platform].push(item);
     });
 
-    var order = ["Windows", "Mac", "Android", "iOS", "Unknown"];
+    var order = ["Stealth", "Assault", "Support", "Utility", "Unknown"];
     var html = order.filter(function(platform) {
       return groups[platform] && groups[platform].length;
     }).map(function(platform) {
@@ -225,7 +325,7 @@
               '<div class="exec-right">' +
                 '<span class="exec-status exec-status-' + statusTone(executor) + '">' + escapeHtml(isOnline(executor) ? "Updated" : "Not Updated") + '</span>' +
                 '<div class="exec-progress-wrap">' +
-                  '<span class="exec-progress-label">ARS.PINK</span>' +
+                  '<span class="exec-progress-label">Criminality</span>' +
                   '<div class="exec-progress-track"><span class="exec-progress-bar exec-progress-bar-' + percentageTone(arsSupport) + '" style="width:' + arsSupport + '%"></span></div>' +
                   '<span class="exec-progress-value exec-progress-value-' + percentageTone(arsSupport) + '">' + arsSupport + '%</span>' +
                 '</div>' +
@@ -242,14 +342,14 @@
       return '' +
         '<section class="exec-group">' +
           '<div class="exec-group-head">' +
-            '<h2>' + escapeHtml(platform) + ' Executors</h2>' +
+            '<h2>' + escapeHtml(platform) + ' Loadouts</h2>' +
             '<span>' + groups[platform].length + '</span>' +
           '</div>' +
           '<div class="exec-grid">' + cards + '</div>' +
         '</section>';
     }).join("");
 
-    byId("executorSections").innerHTML = html || '<div class="policy-card"><h2>No executors found</h2><p>Try changing the platform or price filter, or clear your search.</p></div>';
+    byId("executorSections").innerHTML = html || '<div class="policy-card"><h2>No loadouts found</h2><p>Try changing the filter, or clear your search.</p></div>';
   }
 
   function setActiveChip(containerId, value) {
@@ -298,26 +398,16 @@
   function showError(message) {
     byId("executorSections").innerHTML = '' +
       '<div class="policy-card">' +
-        '<h2>Could not load executor data</h2>' +
+        '<h2>Could not load loadouts</h2>' +
         '<p>' + escapeHtml(message) + '</p>' +
-        '<div class="policy-actions">' +
-          '<a class="policy-btn policy-btn-primary" href="https://docs.whatexpsare.online" target="_blank">View API Docs</a>' +
-        '</div>' +
       '</div>';
   }
 
-  Promise.all([
-    fetchJson("/status/exploits"),
-    fetchJson("/versions/current")
-  ]).then(function(results) {
-    var executors = Array.isArray(results[0]) ? results[0] : [];
-    var versions = results[1] || {};
-    renderVersions(versions);
-    renderStats(executors);
-    renderExecutors(executors);
-    bindFilters(executors);
-  }).catch(function(error) {
-    console.error(error);
-    showError(error.message || "Unknown error while loading data.");
-  });
+  renderVersions([
+    { label: "Purple Glass", note: "Profile loader and hero styling", version: "Active" },
+    { label: "Criminality Only", note: "One game, no external feed", version: "Locked In" }
+  ]);
+  renderStats(CRIMINALITY_LOADOUTS);
+  renderExecutors(CRIMINALITY_LOADOUTS);
+  bindFilters(CRIMINALITY_LOADOUTS);
 })();
